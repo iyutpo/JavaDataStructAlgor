@@ -39,11 +39,24 @@ public class MiGong {
         }
 
         // 另一个情况是不存在从起点到终点的路径：
-        map[1][2] = map[2][2] = 1;
+        int[][] map2 = new int[8][7];
+        for (int i = 0; i < 7; i++) {  // 上下两个边
+            map2[0][i] = 1;
+            map2[7][i] = 1;
+        }
+        for (int i = 0; i < 8; i++) {  // 左右两个边
+            map2[i][0] = 1;
+            map2[i][6] = 1;
+        }
+        // 设置几个障碍物
+        map2[3][1] = map2[3][2] = 1;
+        map2[1][2] = map2[2][2] = 1;
+        // 调用setWay函数：
+        setWay(map2, 1, 1);
         System.out.println("小球走过并标记过的迷宫情况（不存在路径）：");
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 7; j++) {
-                System.out.print(map[i][j] + " ");
+                System.out.print(map2[i][j] + " ");
             }
             System.out.println();
         }
