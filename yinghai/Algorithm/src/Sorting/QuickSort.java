@@ -40,32 +40,6 @@ public class QuickSort {
         arr[right] = tmp;
         return i + 1;
     }
-
-    public static void quickSort1(int[] arr, int left, int right) {
-        int l = left;
-        int r = right;
-        int temp;
-        int pivot = arr[(left + right) / 2];    // pivot相当于数组arr最中间的元素
-        while (l < r) {
-            while (arr[l] < pivot) {    // 在pivot左半边一直找，直到找到一个小于arr[pivot]的值的元素为止
-                l++;
-            }
-            while (arr[r] > pivot) {    // 在pivot右半边一直找，直到找到一个大于arr[pivot]的值的元素为止
-                r--;
-            }
-            // 如果 l >= r 说明 pivot  的左右两边的值,已经按照左边全部是 <= pivot, 右边
-            // 全部是 > pivot 的.
-            if (l >= r) {  // 当 l索引大于等于 r 索引，说明整个arr的左半边都是小于arr[pivot]的元素，右半边都是大于arr[pivot]的元素
-                break;
-            }
-            // 交换
-            temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-
-            // 交换完成后，如果arr[l] == arr[pivot] 的值，就要前移一位
-        }
-    }
 }
 
 
