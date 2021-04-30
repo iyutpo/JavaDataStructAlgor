@@ -81,12 +81,12 @@ class EmployeeLinkedList {
     }
 }
 
-class hashTable {
+class hashTableExample {
     private EmployeeLinkedList[] employeeLinkedListArray;
     private int size;       // size 表示共有多少条链表
 
     // 构造器  相当于 __init__
-    public hashTable(int size) {
+    public hashTableExample(int size) {
         // 初始化employeeLinkedListArray
         employeeLinkedListArray = new EmployeeLinkedList[size];
         this.size = size;
@@ -96,7 +96,10 @@ class hashTable {
     public void add(Employee employee) {
         // 根据雇员id判断该员工应该被加在那个链表
         int employeeLinkedListNO = hashFunction(employee.id);
-        //
+        // 不要忘记分别初始化每个列表
+        for (int i = 0; i < size; i++) {
+            employeeLinkedListArray[i] = new EmployeeLinkedList();
+        }
     }
 
     // 遍历所有链表
@@ -115,14 +118,14 @@ class hashTable {
 public class HashTable {
     public static void main(String[] args) {
         // 创建hash table
-        new hashTable = new hashTable(7);
+        hashTableExample hashTab = new hashTableExample(7);
         // 写一个简单的菜单：
         String key = "";
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("add: 添加雇员");
-            System.out.println("add: 添加雇员");
-            System.out.println("add: 添加雇员");
+            System.out.println("list: 添加雇员");
+            System.out.println("exit: 添加雇员");
 
             key = scanner.next();
             switch (key) {
@@ -132,9 +135,17 @@ public class HashTable {
                     System.out.println("输入ID");
                     String name = scanner.next();
                     // 创建雇员
-                    new Employee = new Employee(id, name);
-                    
-
+                    Employee employee = new Employee(id, name);
+                    hashTab.add(employee);
+                    break;
+                case "list":
+                    hashTab.list();
+                    break;
+                case "exit":
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    break;
             }
         }
     }
