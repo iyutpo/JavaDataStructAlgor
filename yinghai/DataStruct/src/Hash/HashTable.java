@@ -80,6 +80,18 @@ class EmployeeLinkedList {
             }
         }
     }
+
+    // 根据id来查找员工
+    public Employee findByID(int id) {
+        Employee currEmp = head;
+        while (currEmp != null) {
+            if (currEmp.id == id) {
+                return currEmp;
+            }
+            currEmp = currEmp.next;
+        }
+        return null;
+    }
 }
 
 class hashTableExample {
@@ -116,6 +128,18 @@ class hashTableExample {
     public int hashFunction(int id) {
         return id % size;
     }
+
+    // 根据输入的id来查找员工：
+    public void findEmpByID(int id) {
+        // 使用散列函数来确定输入id所对应的hash table的索引
+        int empLinkedListNO = hashFunction(id);
+        Employee emp = employeeLinkedListArray[empLinkedListNO].findByID(id);
+        if (emp != null) {  // 找到了员工
+            System.out.printf("在第%d条链表中找到了员工 id = %d\n", (empLinkedListNO + 1), id);
+        } else {            // 没找到
+            System.out.println("没找到该员工");
+        }
+    }
 }
 
 public class HashTable {
@@ -143,6 +167,11 @@ public class HashTable {
                     break;
                 case "list":
                     hashTab.list();
+                    break;
+                case "find":
+                    System.out.println("请输入你想查找的id：");
+                    id = scanner.nextInt();
+                    hashTab.findEmpByID(id);
                     break;
                 case "exit":
                     scanner.close();
