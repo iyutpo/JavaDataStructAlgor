@@ -23,7 +23,134 @@ package Hash;
 *   A: 用一个映射函数（常叫做 散列函数）来实现。 举个例子：
 * 假设我们有一个 hash table，里面有 7 个key。我们传入一个数 200，那么 200 mod 7 = 4 （取余）。所以200应该在第4个key上
 *
+*
+* 我们接下来用一个实例来演示一下hash table的建立
 * */
-public class HashTable {
 
+import java.util.Scanner;
+
+class Employee {
+    public int id;
+    public String name;
+    public Employee next;
+    public Employee (int id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
 }
+
+// 创建一个EmployeeLinkedList链表
+class EmployeeLinkedList {
+    // head指针，该链表的head直接指向第一个Employee emp
+    private Employee head;  // 默认为null
+
+    // 添加雇员到链表
+    // 1. 假定当添加雇员时，ID是自动增加，确保ID是升序的
+    // 因此我们将该雇员直接加入到本链表的最后即可
+    public void add(Employee emp) {
+        // 如果是添加一个雇员
+        if (head == null) {
+            head = emp;
+            return;
+        }
+        // 如果不是第一个雇员，则使用一个辅助指针，定位到链表最后
+        Employee currEmp = head;
+        while (true) {
+            if (currEmp.next == null) {
+                break;
+            }
+            currEmp = currEmp.next;
+        }
+    }
+
+    // 遍历链表的雇员信息
+    public void list() {
+        if (head == null) {
+            System.out.println("当前链表为空");
+        }
+        System.out.println("当前链表信息为：");
+        Employee currEmp = head;
+        while (true) {
+            System.out.printf("=> id=%d name=%s\t", currEmp.id, currEmp.name);
+            if (currEmp.next == null) {
+                break;
+            }
+            currEmp = currEmp.next;
+        }
+    }
+}
+
+class hashTable {
+    private EmployeeLinkedList[] employeeLinkedListArray;
+    private int size;       // size 表示共有多少条链表
+
+    // 构造器  相当于 __init__
+    public hashTable(int size) {
+        // 初始化employeeLinkedListArray
+        employeeLinkedListArray = new EmployeeLinkedList[size];
+        this.size = size;
+    }
+
+    // 添加雇员
+    public void add(Employee employee) {
+        // 根据雇员id判断该员工应该被加在那个链表
+        int employeeLinkedListNO = hashFunction(employee.id);
+        //
+    }
+
+    // 遍历所有链表
+    public void list() {
+        for (int i = 0; i < size; i++) {
+            employeeLinkedListArray[i].list();
+        }
+    }
+
+    // 编写一个散列函数（常见的是取模法）
+    public int hashFunction(int id) {
+        return id % size;
+    }
+}
+
+public class HashTable {
+    public static void main(String[] args) {
+        // 创建hash table
+        new hashTable = new hashTable(7);
+        // 写一个简单的菜单：
+        String key = "";
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("add: 添加雇员");
+            System.out.println("add: 添加雇员");
+            System.out.println("add: 添加雇员");
+
+            key = scanner.next();
+            switch (key) {
+                case "add":
+                    System.out.println("输入ID");
+                    int id = scanner.nextInt();
+                    System.out.println("输入ID");
+                    String name = scanner.next();
+                    // 创建雇员
+                    new Employee = new Employee(id, name);
+                    
+
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
