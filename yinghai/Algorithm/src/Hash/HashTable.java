@@ -62,21 +62,22 @@ class EmployeeLinkedList {
             }
             currEmp = currEmp.next;
         }
+        currEmp.next = emp;
     }
 
     // 遍历链表的雇员信息
-    public void list() {
+    public void list(int no) {
         if (head == null) {
-            System.out.println("当前链表为空");
+            System.out.println("第" + (no+1) + "个链表为空");
+            return;
         }
-        System.out.println("当前链表信息为：");
+        System.out.println("第" + (no+1) + "个链表的信息为：");
         Employee currEmp = head;
         while (true) {
             System.out.printf("=> id=%d name=%s\t", currEmp.id, currEmp.name);
             if (currEmp.next == null) {
                 break;
             }
-            currEmp = currEmp.next;
         }
     }
 }
@@ -107,7 +108,7 @@ class hashTableExample {
     // 遍历所有链表
     public void list() {
         for (int i = 0; i < size; i++) {
-            employeeLinkedListArray[i].list();
+            employeeLinkedListArray[i].list(i);
         }
     }
 
@@ -134,7 +135,7 @@ public class HashTable {
                 case "add":
                     System.out.println("输入ID");
                     int id = scanner.nextInt();
-                    System.out.println("输入ID");
+                    System.out.println("输入姓名");
                     String name = scanner.next();
                     // 创建雇员
                     Employee employee = new Employee(id, name);
