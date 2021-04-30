@@ -85,21 +85,23 @@ class hashTableExample {
     private EmployeeLinkedList[] employeeLinkedListArray;
     private int size;       // size 表示共有多少条链表
 
-    // 构造器  相当于 __init__
+    // 构造器  相当于 __init__, hashTableExample 吃一个参数 size，表示hash table的大小
     public hashTableExample(int size) {
         // 初始化employeeLinkedListArray
         employeeLinkedListArray = new EmployeeLinkedList[size];
         this.size = size;
+        // 不要忘记分别初始化每个列表
+        for (int i = 0; i < size; i++) {
+            employeeLinkedListArray[i] = new EmployeeLinkedList();
+        }
     }
 
     // 添加雇员
     public void add(Employee employee) {
         // 根据雇员id判断该员工应该被加在那个链表
         int employeeLinkedListNO = hashFunction(employee.id);
-        // 不要忘记分别初始化每个列表
-        for (int i = 0; i < size; i++) {
-            employeeLinkedListArray[i] = new EmployeeLinkedList();
-        }
+        // 将 employee 添加到对应的链表中
+        employeeLinkedListArray[employeeLinkedListNO].add(employee);
     }
 
     // 遍历所有链表
@@ -124,8 +126,8 @@ public class HashTable {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("add: 添加雇员");
-            System.out.println("list: 添加雇员");
-            System.out.println("exit: 添加雇员");
+            System.out.println("list: 列出雇员");
+            System.out.println("exit: 退出程序");
 
             key = scanner.next();
             switch (key) {
