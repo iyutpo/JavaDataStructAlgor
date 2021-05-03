@@ -1,7 +1,7 @@
 package Sorting;
 
 /*
-* heap sort 介绍
+* heap sort 介绍 (reference: https://www.geeksforgeeks.org/heap-sort/)
 * 1. heap sort 是基于 heap 这种数据结构的一种排序算法，本质上是一种 选择排序（selection sort）
 *    它的最佳、最坏、平均时间复杂度为 O(n log n)，它也是不稳定排序。
 * 2. heap 的本质上是一个 完全二叉树，即每个结点的值都大于等于 其左右子节点的值 （这种叫做 大根堆）。反之则是小根堆
