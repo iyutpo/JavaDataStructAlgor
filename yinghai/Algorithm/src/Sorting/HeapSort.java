@@ -134,6 +134,8 @@ public class HeapSort {
             heapify(arr, n, i);
         }
         // 然后我们要从 heap 中逐个提取元素：
+        // 注意这里需要倒序遍历，因为我们每次找到一个最大值节点后，都是将它放在array的最后，依次减小之后，需要进行heapify的数组长度也跟着减小
+        // 所以for loop 中的 heapify 使用的是 n = i
         for (int i = n - 1; i > 0; i--) {
             int temp = arr[0];
             arr[0] = arr[i];
