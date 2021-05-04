@@ -149,6 +149,11 @@ class treenodeAVL {
             // 先左旋转
             leftRotate();
         }
+        // 当添加完一个节点后，如果 (左子树高度 - 右子树高度） > 1，右旋转
+        if (leftHeight() - rightHeight() > 1) {
+            // 右旋转
+            rightRotate();
+        }
     }
 
     public void inorder() {
@@ -357,8 +362,8 @@ public class AVLTree {
         System.out.println("Inorder traversal AVL: ");
         avl.inorder();
         System.out.println("Height of AVL: " + avl.getRoot().height() +
-                " left subtree height: " + avl.getRoot().leftHeight() +
-                " right subtree height: " + avl.getRoot().rightHeight());
+                ". left subtree height: " + avl.getRoot().leftHeight() +
+                ". right subtree height: " + avl.getRoot().rightHeight());
 
         int[] arr1 = {10, 12, 8, 9, 7, 6};
         AVL avl1 = new AVL();
@@ -370,8 +375,9 @@ public class AVLTree {
         System.out.println("Inorder traversal AVL: ");
         avl1.inorder();
         System.out.println("Height of AVL: " + avl1.getRoot().height() +
-                " left subtree height: " + avl1.getRoot().leftHeight() +
-                " right subtree height: " + avl1.getRoot().rightHeight());
+                ". left subtree height: " + avl1.getRoot().leftHeight() +
+                ". right subtree height: " + avl1.getRoot().rightHeight() +
+                ". current root node is: " + avl1.getRoot());
     }
 }
 
