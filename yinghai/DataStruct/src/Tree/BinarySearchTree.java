@@ -131,6 +131,11 @@ class BST {
         }
     }
 
+    // 返回根节点
+    public TreeNode getRoot() {
+        return root;
+    }
+
     // 查找要删除的节点：
     public TreeNode search(int value) {
         if (root == null) { return null; }
