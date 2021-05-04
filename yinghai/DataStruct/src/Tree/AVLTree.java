@@ -118,7 +118,38 @@ package Tree;
 *             7           10
 *            /          /    \
 *           6          9      12
- * */
+*
+* 思考：只用一次左或右旋转是否能将所有的 不平衡二叉搜索树 都变成 AVL 呢？ —— 不能
+* 对于下面这棵树，我们发现需要先进行右旋转。但是右旋转后的树是：
+*               10                                          7
+*           /       \       (left rotate)               /       \
+*         7           11        ====>                 6           10
+*       /   \                                                  /      \
+*      6     8                                                8        11
+*             \                                                 \
+*              9                                                 9
+* 我们发现旋转后得到的还是一个 不平衡二叉搜索树。该问题是因为：
+* 1. 当符合右旋转条件时，如果 root 的左子树的 右子树 高度 > 它的左子树高度，就要先对这个节点的左节点进行左旋转
+*    这里  7号节点的 右子树高度为 2 > 7号节点的左子树高度 1，所以要先对  7号节点左旋转。完成后再对 10号节点进行右旋转即可
+* 下面给出 两次旋转的结果：
+* (1). 对 7号节点进行左旋转：
+*               10                                               10
+*           /       \       (left rotate at 7)               /       \
+*         7           11          ====>                    8          11
+*       /   \                                             / \
+*      6     8                                           7   9
+*             \                                        /
+*              9                                      6
+* (2). 对 10号节点进行 右旋转：
+*               10                                               8
+*           /       \       (left rotate at 10)              /       \
+*         8           11          ====>                    7          10
+*       /   \                                             /         /    \
+*      7     9                                          6          9      11
+*     /
+*    6
+*
+**/
 
 // 这里的treenodeAVL 类 是基于 BinarySearchTree.java 中的 TreeNode类，添加了几个function
 class treenodeAVL {
@@ -146,13 +177,28 @@ class treenodeAVL {
         }
         // 当添加完一个节点后， 如果 (右子树高度 - 左子树高度) > 1，左旋转
         if (rightHeight() - leftHeight() > 1) {
-            // 先左旋转
-            leftRotate();
+            // 如果它的右子树的左子树 高度 大于它右子树的高度
+            if (right != null && right.leftHeight() > right.rightHeight()) {
+                // 要先进行 右旋转
+                right.rightRotate();
+                // 然后进行 左旋转
+                leftRotate();
+            } else {        // 否则直接进行左旋转
+                leftRotate();
+            }
+            return;
         }
         // 当添加完一个节点后，如果 (左子树高度 - 右子树高度） > 1，右旋转
         if (leftHeight() - rightHeight() > 1) {
-            // 右旋转
-            rightRotate();
+            // 如果它的左子树的右子树 高度 大于它左子树的高度
+            if (left != null && left.rightHeight() > left.leftHeight()) {
+                // 要先进行左旋转
+                left.leftRotate();
+                // 然后进行右旋转
+                rightRotate();
+            } else {    // 否则直接进行右旋转
+                rightRotate();
+            }
         }
     }
 
