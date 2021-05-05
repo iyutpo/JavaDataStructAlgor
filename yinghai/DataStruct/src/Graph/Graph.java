@@ -42,12 +42,15 @@ public class Graph {
     private ArrayList<String> vertexList;       // 存储所有vertex
     private int[][] edges;                      // 存储 邻接矩阵
     private int numOfEdges;                     // edges 的个数
+    // 定义给定数组的 boolean[], 记录某个节点是否被访问
+    private boolean[] isVisited;
 
     public Graph(int n) {                // constructor
         // 初始化矩阵和vertexList
         edges = new int[n][n];
         vertexList = new ArrayList<String>(n);
         numOfEdges = 0;                 // 因为我们不知道有多少edges，所以初始化为0
+        isVisited = new boolean[n];
     }
 
     // 插入节点：
@@ -88,6 +91,54 @@ public class Graph {
         }
     }
 
+    // 从这里开始实现 Graph 的DFS遍历
+    // 首先要得到第一个邻接节点的下标 w
+    public int getFirstNeighbor(int index) {
+        for (int j = 0; j < vertexList.size(); j++) {
+            if (edges[index][j] > 0) {          // 如果 下一个邻接节点是存在的
+                return j;
+            }
+        }
+        return -1;          // 否则返回-1
+    }
+    // 根据前一个邻接节点的下标来获取下一个邻接节点：
+    public int getNextNeighbor(int v1, int v2) {
+        for (int j = v2 + 1; j < vertexList.size(); j++) {
+            if (edges[v1][j] > 0) {
+                return j;
+            }
+        }
+        return -1;
+    }
+    // DFS 算法：
+    private void dfs(boolean[] isVisited, int i) {
+        /**
+         * @param isVisited -> 当前节点是否已经被访问过
+         * @param i -> 表示遍历的次数，第一次为0
+         */
+        System.out.printf(getValueByIndex(i) + "-->");
+        // 将该节点设置为 已访问
+        isVisited[i] = true;
+        // 这就是上面的1.2.步，查找节点i 的第一个邻接节点
+        int w = getFirstNeighbor(i);
+        while (w != -1) {       // 说明找到了未被访问过的邻接节点
+            if (!isVisited[w]) {
+                dfs(isVisited, w);
+            }
+            // 如果 w节点 已被访问过就进入 1.5.步
+            w = getNextNeighbor(i, w);
+        }
+    }
+    // 对 dfs 进行一个重载，遍历所有的节点，并进行 DFS
+    public void dfs() {
+        // 遍历所有的节点进行DFS：
+        for (int i = 0; i < getNumOfVertex(); i++) {
+            if (!isVisited[i]) {
+                dfs(isVisited, i);
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         int n = 5;      // 节点的个数
@@ -106,6 +157,10 @@ public class Graph {
         graph.insertEdge(1, 4, 1);      // B-E
 
         graph.showGraph();
+
+        // 测试DFS：
+        System.out.println("Start DFS here: ");
+        graph.dfs();
     }
 }
 
