@@ -32,11 +32,26 @@ package Graph;
 *       1.4. 若 w 未被访问，对 w 进行 DFS 遍历，即把w 当作另一个节点v，然后进行步骤 1.1.， 1.2.， 1.3.
 *       1.5. 查找结点v 的 w 邻接节点的下一个邻接节点，转到 1.3.步。
 *
+* 2. BFS：广度优先遍历，基本思想是：
+*   (1). 类似于一个分层搜索的过程，广度优先遍历需要使用一个Queue（也可以是array）来保持访问过的节点的顺序
+*   步骤：
+*       1.1. 访问初始节点v 并标记节点v 为已访问
+*       1.2. 将节点v 推入Queue
+*       1.3. 当Queue 不为空时，继续执行； 否则算法继续
+*       1.4. 出队列，取得Queue的头节点u
+*       1.5. 查找结点u 的第一个邻接节点w
+*       1.6. 如果邻接节点w 不存在，则转到1.3.步；否则继续执行 1.6.1., 1.6.2, 和 1.6.3：
+*           1.6.1. 如果节点w 未被访问，则访问节点w 并标记为已访问
+*           1.6.2. 将节点w 推入队列
+*           1.6.3. 查找结点u 的继 w 之后的 下一个邻接节点 w'，然后转到 1.6.步
+*   接下来还是会使用上面的Graph来测试一个BFS的例子。
+*
 * */
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class Graph {
     private ArrayList<String> vertexList;       // 存储所有vertex
@@ -139,6 +154,40 @@ public class Graph {
         }
     }
 
+    // BFS
+    private void bfs(boolean[] isVisited, int i) {
+        int u;              // 表示Queue的头节点所对应的索引
+        int w;              // 邻接节点w
+        // 队列，记录节点的访问顺序
+        LinkedList queue = new LinkedList();
+        System.out.print(getValueByIndex(i) + "-->");
+        // 标记为已访问：
+        isVisited[i] = true;
+        // 将节点推入Queue
+        queue.addLast(i);
+        while (!queue.isEmpty()) {
+            u = (Integer) queue.removeFirst();         // 取出队列的头节点的索引u
+            w = getFirstNeighbor(u);                   // 得到第一个邻接节点的索引w
+            while (w != -1) {               // 找到了 w
+                if (!isVisited[w]) {
+                    System.out.println(getValueByIndex(w) + "-->");
+                    isVisited[w] = true;              // 标记为已访问
+                    queue.addLast(w);                 // 推入Queue
+                }
+                // 以u为前驱节点，找w后面的下一个邻接节点
+                w = getNextNeighbor(u, w);
+            }
+        }
+    }
+    public void bfs() {
+        // 遍历所有节点
+        for (int i = 0; i < getNumOfVertex(); i++) {
+            if(!isVisited[i]) {
+                bfs(isVisited, i);
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         int n = 5;      // 节点的个数
@@ -161,6 +210,25 @@ public class Graph {
         // 测试DFS：
         System.out.println("Start DFS here: ");
         graph.dfs();
+        System.out.println("\n");
+
+        // 测试BFS:
+        // 再创建一个 Graph.
+        // 再创建一个新的graph是因为，如果我们还继续使用之前的graph，由于已经做过一次DFS，导致isVisited这个成员变量变成了[true, true, ...]
+        // BFS 再遍历的时候，会打印不出任何值。
+        Graph graph1 = new Graph(n);
+        // 添加节点到 graph：
+        for (String value : vertexValue) {
+            graph1.insertVertex(value);
+        }
+        // 添加边：
+        graph1.insertEdge(0, 1, 1);      // A-B
+        graph1.insertEdge(0, 2, 1);      // A-C
+        graph1.insertEdge(1, 2, 1);      // B-C
+        graph1.insertEdge(1, 3, 1);      // B-D
+        graph1.insertEdge(1, 4, 1);      // B-E
+        System.out.println("Start BFS here: ");
+        graph1.bfs();
     }
 }
 
