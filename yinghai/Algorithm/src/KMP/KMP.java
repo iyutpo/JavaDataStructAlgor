@@ -37,7 +37,23 @@ package KMP;
 *                                 最大长度为 k 的相同前缀后缀。
 *                                 这也意味着在某个字符失配时，该字符对应的 next 值 会告诉你下一步匹配中， str2应该跳转到哪个位置（跳到next[j]位置）
 *                                 如果 next[j] = 0 或者 -1，则跳转到str2的开头字符。如果 next[j] = k 且 k > 0，则下次匹配跳到 j 之前的
-*                                 某个字符，而不是开头，且这次跳跃 跳过了 k 个字符。
+*                                 某个字符，而不是开头，且这次跳跃 跳过了 k 个字符。转换为代码就是：
+*           public static int kmpSearch(String str1, String str2) {
+*               int i = 0, j = 0;
+*               int s1Length = str1.length, s2Length = str2.length;
+*               while (i < s1Length && j < s2Length) {
+*                   // 如果 j == -1，或者当前字符匹配成功（即 str1[i] == str2[j]），就让 i++, j++
+*                   if (j == -1 || str1[i] == str2[j]) {
+*                       i++;
+*                       j++;
+*                   } else {
+*                       // 如果 j != -1，且当前字符匹配失败（即str1[i] != str2[j]），则 i 不变， j = next[j]
+*                       j = next[j];
+*                   }
+*               }
+*               if (j == s2Length) { return i = j; }
+*               else { return -1; }
+*           }
 * */
 public class KMP {
     public static void main(String[] args) {
