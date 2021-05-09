@@ -54,6 +54,8 @@ package KMP;
 *               if (j == s2Length) { return i = j; }
 *               else { return -1; }
 *           }
+*   继续看之间的案例，当 str1[7] != str2[5]时，KMP 不是像暴破那样 简单地把str2 右移一位，而是执行 “如果 j != -1, 且当前字符失配（即
+*   str1[i] != str2[j]，则令 i 不变，j = next[j]）”即 j 从
 * */
 public class KMP {
     public static void main(String[] args) {
