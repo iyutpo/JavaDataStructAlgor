@@ -1,6 +1,6 @@
 package KMP;
 
-/* 在运行该代码之前，强烈建议阅读一下 KMP.md 文件
+/* 在运行该代码之前，（下面的注释，由于不方便绘图，所以写的比较乱）强烈建议阅读一下 KMP.md 文件
 * KMP 是 ”字符串匹配“ 问题中非常常用的一种算法。（参考：https://www.youtube.com/watch?v=y-cH2HEuPew&list=PLmOn9nNkQxJFvyhDYx0ya4F75uTtUHA_f&index=161）
 *   问：当有一个字符串 str1 = "hello world",  str2 = "llo wl"，要判断 str1 中是否含有 str2。如果存在，就返回
 *      str2 在 str1 中第一次出现的为止。如果没有，就返回-1.
@@ -59,9 +59,16 @@ package KMP;
 * */
 public class KMP {
     public static void main(String[] args) {
+        // Testing Brute Force Algorithm from here
+        System.out.println("Testing Brute Force Algorithm from here: ");
         String str1 = "hello world", str2 = "llo wl";
         int index = bruteForce(str1, str2);
         System.out.println("index = " + index);
+
+        // Testing KMP Algorithm from here
+        System.out.println("Testing KMP Algorithm from here: ");
+        String S = "ABC ABCDAB ABCDABCDABDE", W = "ABCDABD";
+        System.out.println("Matched Position is: " + KMP(S, W));
     }
 
     // Brute-force solution:
@@ -87,6 +94,52 @@ public class KMP {
             return i - j;
         }
         return -1;
+    }
+
+
+    // 下面是KMP算法的实现：
+    // 首先是建立部分匹配表的函数
+    private static int[] kmpTable(String W) {
+        int[] T = new int[W.length()];      // 初始化匹配表，T是与W等长的全0数组
+        T[0] = -1;                          // 默认上，T[0] ≡ -1。另外，T的长度默认 >= 2。如果 < 2，则没必要使用KMP
+
+        int pos = 2, cnd = 0;               // pos, cnd分别是T 和 W 的索引
+        while(pos < W.length()) {
+            if (W.charAt(pos - 1) == W.charAt(cnd)) {   // 当W类似于"AAAAC"，"BBC", "AAABBC"这种W[0]=W[1]=...时
+                cnd++;
+                T[pos] = cnd;                           // 就让T[pos] = cnd
+                pos++;
+            } else if (cnd > 0) {                       // 当 cnd > 0，说明发现了重复部分
+                cnd = T[cnd];
+            } else {                                    // 其他情况下，T[pos] = 0
+                T[pos] = 0;
+                pos++;
+            }
+        }
+        return T;
+    }
+
+    public static int KMP(String S, String W) {
+    /**
+     * @param S --> Longer String, e.g., "ABC ABCDAB ABCDABCDABDE"
+     * @param W --> Shorter String, e.g., "ABCDABD"
+     * @param output --> int. If not found then return -1; otherwise return the first position where W matches S
+     * */
+        int slen = S.length(), wlen = W.length();
+        int m = 0, i = 0;
+        int[] T = kmpTable(W);
+
+        while (m < slen && i < wlen) {
+            if (i == -1 || S.charAt(m) == W.charAt(i)) {
+                i++;
+                m++;
+            } else {
+                i = T[i];
+            }
+        }
+
+        if (i == wlen) { return m - i; }
+        else { return -1; }
     }
 }
 
