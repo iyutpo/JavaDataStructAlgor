@@ -9,6 +9,27 @@ package Kruskal;
 *
 * */
 
+import java.util.Arrays;
+
+// 定义一个边类，它的对象实例表示一条边
+class edgeData {
+    char start, end;        // 边的起点和终点
+    int weight;             // 边的权重
+
+    // Constructor
+    public edgeData(char start, char end, int weight) {
+        this.start = start;
+        this.end = end;
+        this.weight = weight;
+    }
+    // 重写toString 函数：
+    @Override
+    public String toString() {
+        return "edgeData [start=" + start + ", end=" + end + ", weight=" + weight + "]";
+    }
+}
+
+
 public class Kruskal {
     private int edgeNum;        // 边的个数
     private char[] vertex;      // 顶点数组
@@ -32,7 +53,7 @@ public class Kruskal {
         }
         // 统计边
         for(int i = 0; i < vlen; i++) {
-            for (int j = 0; j < vlen; j++) {
+            for (int j = i+1; j < vlen; j++) {
                 if (this.matrix[i][j] != INF) {
                     edgeNum++;
                 }
@@ -51,7 +72,50 @@ public class Kruskal {
         }
     }
 
+    // 对边的权重进行排序（冒泡）：
+    private void sortEdge(edgeData[] edges, int elen) {
+        /**
+         * @param --> 边的集合
+         */
+        for (int i = 0; i < edges.length - 1; i++) {
+            for (int j = 0; j < edges.length - 1 - i; j++) {
+                if (edges[i].weight > edges[j+1].weight) {
+                    edgeData temp = edges[j];
+                    edges[j] = edges[j+1];
+                    edges[j+1] = temp;
+                }
+            }
+        }
+    }
 
+    private int getPosition(char ch) {
+        /**
+         * @param ch --> 顶点的值， 如'A', 'B', ...
+         * @return --> 返回ch顶点对应的下标，如果找不到，返回-1
+         */
+        for (int i = 0; i < vertex.length; i++) {
+            if (vertex[i] == ch) { return i; }
+        }
+        return -1;
+    }
+
+    private edgeData[] getEdges() {
+        /**
+         * @return --> 返回图中的边，放到edgeData[] 数组中，便于我们之后遍历该数组
+         * 通过matrix 邻接矩阵来获取
+         * edgeData[] 形式： [['A', 'B', 12], ['B', 'F', 7], ... ]
+         */
+        int index = 0;
+        edgeData[] edges = new edgeData[edgeNum];
+        for (int i = 0; i < vertex.length; i++) {
+            for (int j = i+1; j < vertex.length; j++) {
+                if (matrix[i][j] != INF) {
+                    edges[index++] = new edgeData(vertex[i], vertex[j], matrix[i][j]);
+                }
+            }
+        }
+        return edges;
+    }
 
     public static void main(String[] args) {
         char[] vertex = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
@@ -67,6 +131,9 @@ public class Kruskal {
         // 创建一个Kruskal对象实例
         Kruskal kruskal = new Kruskal(vertex, matrix);
         kruskal.print();
+
+        //
+        System.out.println(Arrays.toString(kruskal.getEdges()));
     }
 }
 
