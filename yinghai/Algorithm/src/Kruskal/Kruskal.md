@@ -8,7 +8,7 @@ Kruskal Algorithm: Kruskal 也是用于查找最小生成树的算法。
 
 我们还是通过一个应用案例来介绍Kruskal Algorithm。假设我们有下图所示的7个村庄，7个村庄之间的距离用权重来表示，且7个村庄之间没有道路相连。现在，我们想在这7个村庄之间修路，连接7个村庄的同时，保证道路总里程最短。
 
-<img src="D:\LANGUAGE\IntelliJUltimate\JavaDataStructAlgor\yinghai\Algorithm\src\Kruskal\graph.png" alt="graph" style="zoom: 67%;" />
+<img src="../Kruskal/graph.png" alt="graph" style="zoom: 67%;" />
 
 #### 2. Kruskal Algorithm介绍
 
@@ -19,19 +19,19 @@ Kruskal Algorithm: Kruskal 也是用于查找最小生成树的算法。
 
 对于上面给定的问题来说，下面是几个可能的最小生成树：
 
-![results](D:\LANGUAGE\IntelliJUltimate\JavaDataStructAlgor\yinghai\Algorithm\src\Kruskal\results.jpg)
+![results](../Kruskal/results.jpg)
 
 我们看到不同的最小生成树有不同的总权重值。
 
 假设现在我们用 R 来保存当前最小生成树的结果那么：
 
-<img src="D:\LANGUAGE\IntelliJUltimate\JavaDataStructAlgor\yinghai\Algorithm\src\Kruskal\s1.jpg" alt="s1" style="zoom:50%;" />
+<img src="../Kruskal/s1.jpg" alt="s1" style="zoom:50%;" />
 
 <img src="D:\LANGUAGE\IntelliJUltimate\JavaDataStructAlgor\yinghai\Algorithm\src\Kruskal\s2.jpg" alt="s2" style="zoom:50%;" />
 
 （注意）第四步中选择CE或CF会构成环，所以只能选BF
 
-<img src="D:\LANGUAGE\IntelliJUltimate\JavaDataStructAlgor\yinghai\Algorithm\src\Kruskal\s3.jpg" alt="s3" style="zoom:50%;" />
+<img src="../Kruskal/s3.jpg" alt="s3" style="zoom:50%;" />
 
 上面的过程应该比较易懂。现在的问题在于：
 
@@ -44,7 +44,7 @@ Kruskal Algorithm: Kruskal 也是用于查找最小生成树的算法。
 
 我们通过之前的第四步来理解问题2的解法：
 
-<img src="D:\LANGUAGE\IntelliJUltimate\JavaDataStructAlgor\yinghai\Algorithm\src\Kruskal\q1.jpg" alt="q1" style="zoom:50%;" />
+<img src="../Kruskal/q1.jpg" alt="q1" style="zoom:50%;" />
 
 在这一步时，虽然CF, CE的权重小，但是会构成环，因此只能选BF。现在已经加入到最小生成树R的边有CD, DE, EF。我们创建一个对应关系：
 

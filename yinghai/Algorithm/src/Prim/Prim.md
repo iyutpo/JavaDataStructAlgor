@@ -6,7 +6,7 @@
 
 该问题是非常典型的求[最小生成树](https://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91)（Minimum Spanning Tree, MST）的问题。**最小生成树**是指在一个连通加权无向图中，一棵权重之和最小的树。前边的链接提供了非常详细的关于MST的介绍，这里不再专门讲述MST。我们着重看一下Prim Algorithm。
 
-![graph](D:\LANGUAGE\IntelliJUltimate\JavaDataStructAlgor\yinghai\Algorithm\src\Prim\graph.jpg)
+![graph](../Prim/graph.jpg)
 
 #### 1. Prim Algorithm思路
 

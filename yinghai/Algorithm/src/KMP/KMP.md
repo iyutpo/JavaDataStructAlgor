@@ -171,11 +171,11 @@ def KMP(S, W):
 
 GIF:
 
-![ezgif.com-gif-maker](D:\LANGUAGE\IntelliJUltimate\JavaDataStructAlgor\yinghai\Algorithm\src\KMP\ezgif.com-gif-maker.gif)
+![ezgif.com-gif-maker](../KMP/ezgif.com-gif-maker.gif)
 
 Video:
 
-<video src="D:\LANGUAGE\IntelliJUltimate\JavaDataStructAlgor\yinghai\Algorithm\src\KMP\ezgif.com-gif-maker.mp4"></video>
+<video src="../KMP/ezgif.com-gif-maker.mp4"></video>
 
 ##### 1.3.3. KMP算法的完整代码
 
