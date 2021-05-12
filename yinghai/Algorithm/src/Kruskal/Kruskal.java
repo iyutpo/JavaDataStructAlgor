@@ -25,7 +25,7 @@ class edgeData {
     // 重写toString 函数：
     @Override
     public String toString() {
-        return "edgeData [start=" + start + ", end=" + end + ", weight=" + weight + "]";
+        return "edgeData [<" + start + ", " + end + "> = " + weight + "]";
     }
 }
 
@@ -61,6 +61,39 @@ public class Kruskal {
         }
     }
 
+    public void kruskal() {
+        int index = 0;                  // 表示最后结果数组的索引
+        int[] ends = new int[edgeNum];  // 保存”已有最小生成树“中的每个顶点在最小生成树中的终点
+        edgeData[] results = new edgeData[edgeNum]; // 保存最后的最小生成树
+        edgeData[] edges = getEdges();      // 获取图中所有边的 集合
+        System.out.println("图的边的集合=" + Arrays.toString(edges) + " 共" + edges.length);  // 12条
+
+        // 按照边权重大小进行排序
+        sortEdge(edges);
+        // 遍历edges数组， 将边添加到最小生成树中，判断准备加入的边是否构成了环
+        for (int i = 0; i < edgeNum; i++) {
+            // 获取第i条边的第一个顶点：
+            int p1 = getPosition(edges[i].start);
+            // 获取第i条边的第2个顶点：
+            int p2 = getPosition(edges[i].end);
+
+            // 获取p1顶点在已有的最小生成树中的终点
+            int m = getEnd(ends, p1);
+            // 获取p2顶点在已有的最小生成树中的终点
+            int n = getEnd(ends, p2);
+
+            // 判断是否构成环：
+            if (m != n) {       // 没构成环
+                ends[m] = n;    // 设置m 在”已有最小生成树“中的终点
+                results[index++] = edges[i];    // 有一条边加入到results
+            }
+        }
+        // 打印出”最终的最小生成树“results
+        System.out.println("最终的最小生成树为： ");
+        for (int i = 0; i < index; i++)
+            System.out.println(results[i]);
+    }
+
     // Print 邻接矩阵
     public void print() {
         System.out.println("邻接矩阵： \n");
@@ -73,13 +106,13 @@ public class Kruskal {
     }
 
     // 对边的权重进行排序（冒泡）：
-    private void sortEdge(edgeData[] edges, int elen) {
+    private void sortEdge(edgeData[] edges) {
         /**
          * @param --> 边的集合
          */
         for (int i = 0; i < edges.length - 1; i++) {
             for (int j = 0; j < edges.length - 1 - i; j++) {
-                if (edges[i].weight > edges[j+1].weight) {
+                if (edges[j].weight > edges[j+1].weight) {
                     edgeData temp = edges[j];
                     edges[j] = edges[j+1];
                     edges[j+1] = temp;
@@ -117,6 +150,19 @@ public class Kruskal {
         return edges;
     }
 
+    private int getEnd(int[] ends, int i) {
+        /**
+         * 获取下标为 i 的顶点的终点，判断两个顶点的终点是否相同
+         * @param --> ends 记录了各个顶点所对应的顶点。ends数组是在遍历过程中逐步形成的
+         * @param --> i 表示传入的顶点所对应的下标
+         * @return --> 返回下表为 i 的顶点  所对应的终点的下标
+         */
+        while (ends[i] != 0) {
+            i = ends[i];
+        }
+        return i;
+    }
+
     public static void main(String[] args) {
         char[] vertex = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
         int matrix[][] = {
@@ -132,8 +178,15 @@ public class Kruskal {
         Kruskal kruskal = new Kruskal(vertex, matrix);
         kruskal.print();
 
-        //
-        System.out.println(Arrays.toString(kruskal.getEdges()));
+        // 未排序的边：
+        edgeData[] edges = kruskal.getEdges();
+        System.out.println("未排序的边: " + Arrays.toString(kruskal.getEdges()));
+        // 排序后的边：
+        kruskal.sortEdge(edges);
+        System.out.println("排序的后边: " + Arrays.toString(edges));
+
+        // 打印出最终的最小生成树
+        kruskal.kruskal();
     }
 }
 
