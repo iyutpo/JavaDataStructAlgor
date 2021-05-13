@@ -38,14 +38,30 @@ class Graph {
         for (int k = 0; k < this.dis.length; k++) {
             // 输出 pre路径数组
             for (int i = 0; i < this.dis.length; i++) {
-                System.out.print(pre[k][i] + " ");
+                System.out.print(vertex[pre[k][i]] + " ");
             }
+            System.out.println();
             // 输出 dis距离数组
             for (int i = 0; i < this.dis.length; i++) {
-                System.out.print(dis[k][i] + " ");
+                System.out.print(vertex[k] + "到" + vertex[i] + "的最短路径是" + dis[k][i] + " ");
             }
             System.out.println();
-            System.out.println();
+        }
+    }
+
+    // Floyd Algorithm
+    public void floyd() {
+        int len = 0;        // 保存距离
+        for (int k = 0; k < dis.length; k++) {          // 从中间顶点遍历，k是中间顶点的下标
+            for (int i = 0; i < dis.length; i++) {      // 从 i顶点开始出发
+                for (int j = 0; j < dis.length; j++) {  // j 是终止节点
+                    len = dis[i][k] + dis[k][j];        // 求出从 i顶点出发，且经过 k顶点，且到达 j顶点 这条路径的距离
+                    if (len < dis[i][j]) {              // 如果经过k顶点这条路径的距离小于 距离表dis 中已有的值，就替换为较小的值
+                        dis[i][j] = len;
+                        pre[i][j] = pre[k][j];          // 更新前驱节点（更新路径表）
+                    }
+                }
+            }
         }
     }
 }
