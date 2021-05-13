@@ -20,6 +20,11 @@ class Graph {
         this.matrix = matrix;
     }
 
+    // 显示结果
+    public void showDijkstra() {
+        visited.show();
+    }
+
     // 打印图：
     public void showGraph() {
         for (int[] link : matrix) {
@@ -33,7 +38,11 @@ class Graph {
          * @param index --> 出发顶点的索引
          */
         visited = new VisistedVertex(vertex.length, index);
-        update(index);          // 更新index顶点到周围顶点的距离和前驱顶点
+        update(index);                  // 更新index顶点到周围顶点的距离和前驱顶点
+        for (int j = 1; j < vertex.length; j++) {
+            index = visited.updateArr();        // 选择并返回新的访问顶点
+            update(index);              // 更新index顶点到周围顶点的距离和前驱顶点
+        }
     }
 
     // 更新index下标顶点 到周围顶点的距离和周围顶点的前驱节点
@@ -66,7 +75,8 @@ class VisistedVertex {
         this.dis = new int[length];
         // 初始化 dis 数组，初始值都是65535。但对角线上都是0
         Arrays.fill(dis, 65535);
-        this.dis[index] = 0;        // 对角线为0
+        this.already_arr[index] = 1;    // 设置出发顶点为 已访问
+        this.dis[index] = 0;            // 对角线为0
     }
 
     public boolean in(int index) {
@@ -103,6 +113,53 @@ class VisistedVertex {
          */
         return dis[index];
     }
+
+    // 继续选择并返回新的访问顶点，比如G 访问过之后，就是A 点作为新的访问顶点（注意不是出发顶点）
+    public int updateArr() {
+        int min = 65535, index = 0;
+        for (int i = 0; i < already_arr.length; i++) {
+            if (already_arr[i] == 0 && dis[i] < min) {
+                min = dis[i];
+                index = i;
+            }
+        }
+        // 更新index顶点为已访问
+        already_arr[index] = 1;
+        return index;
+    }
+
+    // 显示最后的结果：
+    public void show() {
+        // 打印出三个数组的情况
+        System.out.println("=======================");
+        // 输出already_arr
+        for (int i : already_arr) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        // 打印pre_visited
+        for (int i : pre_visited) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        // 打印dis
+        for (int i : dis) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        // 格式化打印结果
+        char[] vertex = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+        int count = 0;
+        for (int i : dis) {
+            if (i != 65535) {
+                System.out.print("G-->" + vertex[count] + " distance: " + i + "\n");
+            } else {
+                System.out.println("N ");
+            }
+            count++;
+        }
+        System.out.println();
+    }
 }
 
 public class Dijkstra {
@@ -121,5 +178,10 @@ public class Dijkstra {
         // 创建一个Graph对象
         Graph graph = new Graph(vertex, matrix);
         graph.showGraph();
+        // 测试Dijkstra's算法的最终结果
+        graph.dijkstra(6);
+        graph.showDijkstra();
+
+
     }
 }
