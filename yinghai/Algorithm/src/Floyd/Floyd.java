@@ -38,12 +38,12 @@ class Graph {
         for (int k = 0; k < this.dis.length; k++) {
             // 输出 pre路径数组
             for (int i = 0; i < this.dis.length; i++) {
-                System.out.print(vertex[pre[k][i]] + " ");
+                System.out.print("\t\t " + vertex[pre[k][i]] + "  \t\t");
             }
-            System.out.println();
+            System.out.println("\n===================================================================================================================================");
             // 输出 dis距离数组
             for (int i = 0; i < this.dis.length; i++) {
-                System.out.print(vertex[k] + "到" + vertex[i] + "的最短路径是" + dis[k][i] + " ");
+                System.out.print("| " + vertex[k] + "到" + vertex[i] + "的最短路径是" + dis[k][i] + " |");
             }
             System.out.println();
         }
@@ -82,6 +82,7 @@ public class Floyd {
         matrix[6] = new int[] {2, 3, N, N, N, 6, N};
 
         Graph graph = new Graph(7, matrix, vertex);
+        graph.floyd();
         graph.show();
     }
 }
